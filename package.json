@@ -4,6 +4,7 @@
   "description": "OS System - Criação de ordem de serviço",
   "main": "index.js",
   "scripts": {
+    "dev": "nodemon",
     "prepare": "husky install",
     "lint": "npx eslint . --cache",
     "pre-commit": "lint-staged"
