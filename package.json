@@ -4,10 +4,13 @@
   "description": "OS System - Criação de ordem de serviço",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon",
+    "dev": "docker-compose up -d && prisma generate && prisma db push && prisma db seed && nodemon",
     "prepare": "husky install",
     "lint": "npx eslint . --cache",
     "pre-commit": "lint-staged"
+  },
+  "prisma": {
+    "seed": "ts-node ./prisma/database/seed.ts"
   },
   "keywords": [],
   "author": "",
@@ -15,6 +18,7 @@
   "devDependencies": {
     "@commitlint/cli": "^17.4.4",
     "@commitlint/config-conventional": "^17.4.4",
+    "@types/bcrypt": "^5.0.0",
     "@types/cors": "^2.8.13",
     "@types/express": "^4.17.17",
     "@types/node": "^18.14.2",
@@ -30,9 +34,10 @@
   },
   "dependencies": {
     "@prisma/client": "^4.11.0",
+    "bcrypt": "^5.1.0",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
-    "express-async-errors": "^3.1.1",
-    "express": "^4.18.2"
+    "express": "^4.18.2",
+    "express-async-errors": "^3.1.1"
   }
 }
