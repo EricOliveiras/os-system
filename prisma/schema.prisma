@@ -14,21 +14,11 @@ model User {
   password     String
   createdAt    DateTime       @default(now())
   updatedAt    DateTime       @updatedAt
-  role         Role           @relation(fields: [roleId], references: [id])
   roleId       Int
   serviceOrder serviceOrder[]
+  User_Role    User_Role[]
 
-  @@map("users")
-}
-
-model Role {
-  id        Int      @id @default(autoincrement())
-  type      String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  User      User[]
-
-  @@map("roles")
+  @@map("user")
 }
 
 model serviceOrder {
@@ -36,10 +26,52 @@ model serviceOrder {
   requester            String
   problemDescription   String
   executionDescription String?
+  finished             Boolean  @default(false)
   createdAt            DateTime @default(now())
   updatedAt            DateTime @updatedAt
   user                 User     @relation(fields: [userId], references: [id])
   userId               String
 
-  @@map("service_orders")
+  @@map("service_order")
+}
+
+model Role {
+  id              Int               @id @default(autoincrement())
+  type            String
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+  Permission_Role Permission_Role[]
+  User_Role       User_Role[]
+
+  @@map("role")
+}
+
+model Permission {
+  id          Int               @id @default(autoincrement())
+  name        String            @unique
+  description String?
+  created_at  DateTime          @default(now())
+  Roles       Permission_Role[]
+
+  @@map("permission")
+}
+
+model Permission_Role {
+  role_id       Int
+  permission_id Int
+  Role          Role       @relation(fields: [role_id], references: [id], onDelete: Cascade)
+  Permission    Permission @relation(fields: [permission_id], references: [id], onDelete: Cascade)
+
+  @@id([role_id, permission_id])
+  @@map("permission_role")
+}
+
+model User_Role {
+  user_id String
+  role_id Int
+  User    User   @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  Role    Role   @relation(fields: [role_id], references: [id], onDelete: Cascade)
+
+  @@id([role_id, user_id])
+  @@map("user_role")
 }
