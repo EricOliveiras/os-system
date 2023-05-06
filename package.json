@@ -4,7 +4,7 @@
   "description": "OS System - Criação de ordem de serviço",
   "main": "index.js",
   "scripts": {
-    "dev": "docker-compose up -d && prisma generate && prisma db push && prisma db seed && nodemon",
+    "dev": "docker-compose up -d && prisma generate && prisma migrate dev && prisma db seed && nodemon",
     "prepare": "husky install",
     "lint": "npx eslint . --cache",
     "pre-commit": "lint-staged"
