@@ -2,7 +2,7 @@ import { PrismaClient } from '@prisma/client';
 import { hash } from 'bcrypt';
 
 import { saltRounds } from '../../src/config/vars';
-import { roles } from './data';
+import { permission_role, permissions, roles } from './data';
 
 const prisma = new PrismaClient();
 
@@ -15,7 +15,17 @@ const main = async () => {
       skipDuplicates: true,
     });
 
-    await prisma.user.upsert({
+    await prisma.permission.createMany({
+      data: permissions,
+      skipDuplicates: true,
+    });
+
+    await prisma.permission_Role.createMany({
+      data: permission_role,
+      skipDuplicates: true,
+    });
+
+    const admin = await prisma.user.upsert({
       where: {
         username: 'admin'
       },
@@ -27,6 +37,15 @@ const main = async () => {
         roleId: 1
       },
     });
+
+    await prisma.user_Role.createMany({
+      data: {
+        role_id: admin.roleId,
+        user_id: admin.id
+      },
+      skipDuplicates: true
+    });
+
   } catch (error) {
     console.error(error);
     await prisma.$disconnect();
