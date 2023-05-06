@@ -7,4 +7,5 @@ userRouter.post('/create', UserController.createUser);
 userRouter.get('/list', UserController.getAll);
 userRouter.get('/search/:id', UserController.getUser);
 userRouter.put('/update/:id', UserController.update);
+userRouter.put('/update/password/:id', UserController.updatePassword);
 userRouter.delete('/delete/:id', UserController.delete);
