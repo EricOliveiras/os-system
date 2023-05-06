@@ -21,11 +21,13 @@ export class CreateUserService {
 
     const hashPassword = await hash(password, saltRounds);
 
-    await this.repository.create({
+    const user = await this.repository.create({
       username,
       fullname,
       password: hashPassword,
       roleId
     });
+
+    await this.repository.addRole(user.id, roleId);
   }
 }
