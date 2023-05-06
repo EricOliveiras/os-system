@@ -7,6 +7,7 @@ import { GetUserService } from '../service/GetUserService';
 import { GetAllUsersService } from '../service/GetAllUsersService';
 import { UpdateUserService } from '../service/UpdateUserService';
 import { DeleteUserService } from '../service/DeleteUserService';
+import { UpdateUserPassword } from '../service/UpdateUserPassword';
 
 const userRepository = new UserRepository();
 
@@ -70,6 +71,20 @@ export default {
     return response.status(200).json({
       error: false,
       message: 'Success in updating user.',
+    });
+  },
+
+  async updatePassword(request: Request, response: Response) {
+    const { id } = request.params;
+    const { password } = request.body;
+
+    const updatePassword = new UpdateUserPassword(userRepository);
+
+    await updatePassword.execute(id, password);
+
+    return response.status(200).json({
+      error: false,
+      message: 'Success in updating user password.',
     });
   },
 
