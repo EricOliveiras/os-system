@@ -1,12 +1,12 @@
 import { User } from '@prisma/client';
-import { prisma as db } from '../../../config/prisma';
 
 import { IUser, IUserUpdate } from '../interface/IUser';
 import { IUserRespository } from '../interface/IUserRepository';
+import { prisma as db } from '../../../config/prisma';
 
 export class UserRepository implements IUserRespository {
-  public async create({ username, fullname, password, roleId }: IUser): Promise<void> {
-    await db.user.create({
+  public async create({ username, fullname, password, roleId }: IUser): Promise<User> {
+    return await db.user.create({
       data: {
         username,
         fullname,
@@ -45,5 +45,21 @@ export class UserRepository implements IUserRespository {
     });
 
     return user;
+  }
+
+  public async updateUserPassword(id: string, password: string): Promise<void> {
+    await db.user.update({
+      where: { id },
+      data: { password }
+    });
+  }
+
+  public async addRole(id: string, roleId: number): Promise<void> {
+    await db.user_Role.create({
+      data: {
+        user_id: id,
+        role_id: roleId
+      }
+    });
   }
 }
