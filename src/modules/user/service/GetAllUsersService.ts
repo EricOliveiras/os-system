@@ -1,6 +1,5 @@
-import { User } from '@prisma/client';
-
 import { UserRepository } from '../repository/UserResository';
+import { IUserResponse } from '../interface/IUserResponse';
 
 export class GetAllUsersService {
   private repository;
@@ -9,7 +8,7 @@ export class GetAllUsersService {
     this.repository = userRepository;
   }
 
-  public async execute(): Promise<User[]> {
+  public async execute(): Promise<IUserResponse[]> {
     return await this.repository.getAll();
   }
 }
