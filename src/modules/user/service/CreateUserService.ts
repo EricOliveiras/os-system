@@ -3,7 +3,7 @@ import { hash } from 'bcrypt';
 import { HttpException } from '../../../errors/HttpException';
 import { UserRepository } from '../repository/UserResository';
 import { saltRounds } from '../../../config/vars';
-import { IUser } from '../interface/IUser';
+import { IUserRequest } from '../interface/IUserRequest';
 
 export class CreateUserService {
   private repository;
@@ -12,7 +12,7 @@ export class CreateUserService {
     this.repository = userRespository;
   }
 
-  public async execute({ username, fullname, password, roleId }: IUser): Promise<void> {
+  public async execute({ username, fullname, password, roleId }: IUserRequest): Promise<void> {
     const usernameExist = await this.repository.getByUsername(username.toLowerCase());
 
     if (usernameExist) {
