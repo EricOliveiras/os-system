@@ -2,18 +2,18 @@ import { Request, Response } from 'express';
 
 import { CreateUserService } from '../service/CreateUserService';
 import { UserRepository } from '../repository/UserResository';
-import { IUser, IUserUpdate } from '../interface/IUser';
 import { GetUserService } from '../service/GetUserService';
 import { GetAllUsersService } from '../service/GetAllUsersService';
 import { UpdateUserService } from '../service/UpdateUserService';
 import { DeleteUserService } from '../service/DeleteUserService';
 import { UpdateUserPassword } from '../service/UpdateUserPassword';
+import { IUserRequest, IUserUpdateRequest } from '../interface/IUserRequest';
 
 const userRepository = new UserRepository();
 
 export default {
   async createUser(request: Request, response: Response) {
-    const { username, fullname, password, roleId }: IUser = request.body;
+    const { username, fullname, password, roleId }: IUserRequest = request.body;
 
     const createUser = new CreateUserService(userRepository);
 
@@ -58,7 +58,7 @@ export default {
 
   async update(request: Request, response: Response) {
     const { id } = request.params;
-    const { username, fullname, roleId }: IUserUpdate = request.body;
+    const { username, fullname, roleId }: IUserUpdateRequest = request.body;
 
     const updateUser = new UpdateUserService(userRepository);
 
