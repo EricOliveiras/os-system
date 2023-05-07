@@ -1,14 +1,13 @@
-import { User } from '@prisma/client';
-
-import { IUser } from './IUser';
+import { IUserResponse } from './IUserResponse';
+import { IUserRequest, IUserUpdateRequest } from './IUserRequest';
 
 export interface IUserRespository {
-  create({ username, fullname, password, roleId }: IUser): Promise<User>;
-  getOne(id: string): Promise<User | null>;
-  getAll(): Promise<User[]>;
-  update(id: string, data: IUser): Promise<void>;
+  create({ username, fullname, password, roleId }: IUserRequest): Promise<IUserResponse>;
+  getOne(id: string): Promise<IUserResponse | null>;
+  getAll(): Promise<IUserResponse[]>;
+  update(id: string, data: IUserUpdateRequest): Promise<void>;
   delete(id: string): Promise<void>
-  getByUsername(username: string): Promise<User | null>;
+  getByUsername(username: string): Promise<unknown | null>;
   updateUserPassword(id: string, password: string): Promise<void>;
   addRole(id: string, roleId: number): Promise<void>;
 }
