@@ -1,4 +1,5 @@
 import { Router } from 'express';
+
 import UserController from '../modules/user/controller/UserController';
 import { canRequest } from '../middlewares/permissionsMiddleware';
 import { authenticated } from '../middlewares/authenticateMiddleware';
