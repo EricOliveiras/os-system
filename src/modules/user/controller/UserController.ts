@@ -24,7 +24,7 @@ export default {
       roleId
     });
 
-    return response.sendStatus(201).json({
+    return response.status(201).json({
       error: false,
       message: 'Success: Successfully created user.',
     });
