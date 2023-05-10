@@ -26,6 +26,7 @@ model serviceOrder {
   requester            String
   problemDescription   String
   executionDescription String?
+  imageUrl             String?
   finished             Boolean  @default(false)
   createdAt            DateTime @default(now())
   updatedAt            DateTime @updatedAt
