@@ -1,0 +1,472 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "OS System API",
+    "version": "1.0.0",
+    "description": "API Documentation"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3333"
+    }
+  ],
+  "paths": {
+    "/auth/login": {
+      "post": {
+        "description": "Acessar conta",
+        "requestBody": {
+          "description": "Corpo da requisição",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Logado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref":"#/components/schemas/LoginResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Credênciais inválidas"
+          }
+        }
+      }
+    },
+    "/user/create": {
+      "post": {
+        "description": "Cria um usuário",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "description": "Corpo da requisição",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Usuário registrado com sucesso"
+          },
+          "409": {
+            "description": "Usuário já está registrado"
+          },
+          "400": {
+            "description": "Cabeçalho de autenticação ausente"
+          },
+          "401": {
+            "description": "Não autorizado"
+          }
+        }
+      }
+    },
+    "/user/list": {
+      "get": {
+        "description": "Lista todos os usuários",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Sucesso ao buscar usuários",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/UserResponse"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Não autorizado"
+          }
+        }
+      }
+    },
+    "/user/search/{id}": {
+      "get": {
+        "description": "Busca um usuário",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id do usuário",
+            "required": true,
+            "type": "string",
+            "format": "UUID"
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Sucesso ao buscar usuário",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Não autorizado"
+          },
+          "404": {
+            "description": "Usuário não econtrado"
+          }
+        }
+      }
+    },
+    "/user/update/{id}": {
+      "put": {
+        "description": "Atualiza um usuário",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id do usuário",
+            "required": true,
+            "type": "string",
+            "format": "UUID"
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "description": "Corpo da requisição",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Usuário atualizado com sucesso"
+          },
+          "404": {
+            "description": "Usuário não econtrado"
+          },
+          "401": {
+            "description": "Não autorizado"
+          }
+        }
+      }
+    },
+    "/user/delete/{id}": {
+      "delete": {
+        "description": "Deleta um usuário",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id do usuário",
+            "required": true,
+            "type": "string",
+            "format": "UUID"
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Usuário deletado com sucesso"
+          },
+          "404": {
+            "description": "Usuário não econtrado"
+          },
+          "401": {
+            "description": "Não autorizado"
+          }
+        }
+      }
+    },
+    "/service-order/create": {
+      "post": {
+        "description": "Cria uma ordem de serviço",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "description": "Corpo da requisição",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ServiceOrderRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Ordem de serviço registrada com sucesso"
+          },
+          "401": {
+            "description": "Não autorizado"
+          }
+        }
+      }
+    },
+    "/service-order": {
+      "get": {
+        "description": "Retorna todas as ordens de serviço",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Sucesso ao buscar ordens de serviço",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ServiceOrderResponse"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Não autorizado"
+          }
+        }
+      }
+    },
+    "/service-order/my-service-orders": {
+      "get": {
+        "description": "Busca todas as ordens de serviço do usuário logado",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Sucesso ao buscar ordens de serviço",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ServiceOrderResponse"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Não autorizado"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "UserRequest": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string",
+            "description": "username do usuário",
+            "example": "johndoe"
+          },
+          "fullname": {
+            "type": "string",
+            "description": "nome completo do usuário",
+            "example": "John Doe"
+          },
+          "password": {
+            "type": "string",
+            "description": "senha do usuário",
+            "example": "johndoe123"
+          },
+          "roleId": {
+            "type": "number",
+            "description": "tipo do usuário - 1 = Admin, 2 = User",
+            "example": 1
+          }
+        }
+      },
+      "UserResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "id do usuário",
+            "example": "b7fa8484-c157-4705-be1e-3571d42814b9",
+            "format": "UUID"
+          },
+          "username": {
+            "type": "string",
+            "description": "username do usuário",
+            "example": "johndoe"
+          },
+          "fullname": {
+            "type": "string",
+            "description": "nome completo do usuário",
+            "example": "John Doe"
+          },
+          "password": {
+            "type": "string",
+            "description": "senha do usuário",
+            "example": "senha hasheada"
+          },
+          "createdAt": {
+            "type": "date",
+            "description": "Data de registro do usuário",
+            "example": "2023-08-16T12:41:35.985Z"
+          },
+          "updatedAt": {
+            "type": "date",
+            "description": "Data de atualização do registro do usuário",
+            "example": "2023-08-17T14:21:05.985Z"
+          },
+          "roleId": {
+            "type": "number",
+            "description": "tipo do usuário - 1 = Admin, 2 = User",
+            "example": 1
+          },
+          "serviceOrder": {
+
+          }
+        }
+      },
+      "LoginRequest": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string",
+            "description": "username do usuário",
+            "example": "johndoe"
+          },
+          "password": {
+            "type": "string",
+            "description": "senha do usuário",
+            "example": "johndoe123"
+          }
+        }
+      },
+      "LoginResponse": {
+        "type": "string",
+        "description": "JWT Token",
+        "format": "JWT",
+        "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+      },
+      "ServiceOrderRequest": {
+        "type": "object",
+        "properties": {
+          "requester": {
+            "type": "string",
+            "description": "Solicitante da ordem de serviço",
+            "example": "Loja ABC"
+          },
+          "problemDescription": {
+            "type": "string",
+            "description": "Descrição da ordem de serviço",
+            "example": "Reparo elétrico"
+          }
+        }
+      },
+      "ServiceOrderResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "id da ordem de serviço",
+            "example": "b7fa8484-c157-4705-be1e-3571d42814b9"
+          },
+          "requester": {
+            "type": "string",
+            "description": "Solicitante da ordem de serviço",
+            "example": "Loja ABC"
+          },
+          "problemDescription": {
+            "type": "string",
+            "description": "Descrição da ordem de serviço",
+            "example": "Reparo elétrico"
+          },
+          "executionDescription": {
+            "type": "string",
+            "description": "Descrição da execução da ordem de servviço",
+            "example": "Reparo em tomada, realizado ... etc"
+          },
+          "imageUrl": {
+            "type": "string",
+            "description": "Imagem da ordem de serviço realizada",
+            "example": "/image/.../..."
+          },
+          "finished": {
+            "typee": "boolean",
+            "description": "Se a ordem foi finalizada",
+            "example": false
+          },
+          "createdAt": {
+            "type": "date",
+            "description": "Data de registro do usuário",
+            "example": "2023-08-16T12:41:35.985Z"
+          },
+          "updatedAt": {
+            "type": "date",
+            "description": "Data de atualização do registro do usuário",
+            "example": "2023-08-17T14:21:05.985Z"
+          },
+          "userId": {
+            "type": "string",
+            "description": "Id do usuário responsavel da ordem de serviço",
+            "example": "b7fa8484-c157-4705-be1e-3571d42814b9"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "description": "Auth com JWT",
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}
