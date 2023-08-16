@@ -3,8 +3,11 @@ import cors from 'cors';
 
 import { router } from '../routes';
 import { errorMiddleware } from '../middlewares/errorMiddleware';
+import setupSwagger from '../swagger';
 
 export const app = express();
+
+setupSwagger(app);
 
 app.use(express.json());
 
