@@ -4,39 +4,39 @@ import { canRequest } from '../middlewares/permissionsMiddleware';
 import { authenticated } from '../middlewares/authenticateMiddleware';
 import ServiceOrderController from '../modules/serviceOrder/controller/ServiceOrderController';
 
-export const serviceOrder = Router();
+export const serviceOrderRouter = Router();
 
-serviceOrder.post('/create',
+serviceOrderRouter.post('/create',
   authenticated,
   canRequest('create:order'),
   ServiceOrderController.create
 );
 
-serviceOrder.get('/',
+serviceOrderRouter.get('/',
   authenticated,
   canRequest('read:order:list'),
   ServiceOrderController.getAll
 );
 
-serviceOrder.get('/my-service-orders',
+serviceOrderRouter.get('/my-service-orders',
   authenticated,
   canRequest('read:order:list'),
   ServiceOrderController.getAllByUser
 );
 
-serviceOrder.get('/:id',
+serviceOrderRouter.get('/:id',
   authenticated,
   canRequest('read:order'),
   ServiceOrderController.getOne
 );
 
-serviceOrder.put('/update/:id',
+serviceOrderRouter.put('/update/:id',
   authenticated,
   canRequest('update:order'),
   ServiceOrderController.update
 );
 
-serviceOrder.delete('/delete/:id',
+serviceOrderRouter.delete('/delete/:id',
   authenticated,
   canRequest('delete:order'),
   ServiceOrderController.delete
