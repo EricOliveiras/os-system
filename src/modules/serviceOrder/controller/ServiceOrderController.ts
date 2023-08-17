@@ -65,7 +65,7 @@ export default {
 
     const getServiceOrder = new GetServiceOrder(serviceOrderRepository);
 
-    const serviceOrder = await getServiceOrder.execute(id);
+    const serviceOrder = await getServiceOrder.execute(Number(id));
 
     return response.status(200).json({
       error: false,
@@ -81,7 +81,7 @@ export default {
 
     const serviceOrder = new UpdateServiceOrder(serviceOrderRepository);
 
-    const updateServiceOrder = await serviceOrder.execute(id, data);
+    const updateServiceOrder = await serviceOrder.execute(Number(id), data);
 
     return response.status(200).json({
       error: false,
@@ -95,7 +95,7 @@ export default {
 
     const serviceOrder = new DeleteServiceOrder(serviceOrderRepository);
 
-    await serviceOrder.execute(id);
+    await serviceOrder.execute(Number(id));
 
     return response.status(200).json({
       error: false,
