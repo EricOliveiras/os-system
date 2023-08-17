@@ -300,6 +300,121 @@
           }
         }
       }
+    },
+    "/service-order/{id}": {
+      "get": {
+        "description": "Busca uma ordem de ssrviço",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id da ordem de serviço",
+            "required": true,
+            "type": "int"
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Sucesso ao atualizar ordem de serviço",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServiceOrderResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Não autorizado"
+          },
+          "404": {
+            "description": "Ordem de serviçoo não econtrada"
+          }
+        }
+      }
+    },
+    "/service-order/update/{id}": {
+      "put": {
+        "description": "Atualiza uma ordem de ssrviço",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id da ordem de serviço",
+            "required": true,
+            "type": "int"
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "description": "Corpo da requisição",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ServiceOrderRequestUpdate"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Sucesso ao atualizar ordem de serviço",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServiceOrderResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Não autorizado"
+          },
+          "404": {
+            "description": "Ordem de serviçoo não econtrada"
+          }
+        }
+      }
+    },
+    "/service-order/delete/{id}": {
+      "delete": {
+        "description": "Deleta um usuário",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id da ordem de serviço",
+            "required": true,
+            "type": "int"
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ordem de serviço deletada com sucesso"
+          },
+          "404": {
+            "description": "Ordem serviço não econtrada"
+          },
+          "401": {
+            "description": "Não autorizado"
+          }
+        }
+      }
     }
   },
   "components": {
@@ -379,12 +494,12 @@
           "username": {
             "type": "string",
             "description": "username do usuário",
-            "example": "johndoe"
+            "example": "admin"
           },
           "password": {
             "type": "string",
             "description": "senha do usuário",
-            "example": "johndoe123"
+            "example": "admin"
           }
         }
       },
@@ -456,6 +571,36 @@
             "type": "string",
             "description": "Id do usuário responsavel da ordem de serviço",
             "example": "b7fa8484-c157-4705-be1e-3571d42814b9"
+          }
+        }
+      },
+      "ServiceOrderRequestUpdate": {
+        "type": "object",
+        "properties": {
+          "requester": {
+            "type": "string",
+            "description": "Solicitante da ordem de serviço",
+            "example": "Loja ABC"
+          },
+          "problemDescription": {
+            "type": "string",
+            "description": "Descrição da ordem de serviço",
+            "example": "Reparo elétrico"
+          },
+          "executionDescription": {
+            "type": "string",
+            "description": "Descrição da execução do serviço",
+            "example": "Foi realizado manutenção em ... etc"
+          },
+          "imageUrl": {
+            "type": "string",
+            "description": "Path da imagem",
+            "example": "/image/.../image.jpg"
+          },
+          "finished": {
+            "type": "boolean",
+            "description": "Se a ordem de serviço foi finalizada",
+            "example": true
           }
         }
       }
