@@ -4,9 +4,9 @@ import { IServiceOrderRequest } from './IServiceOrderRequest';
 
 export interface IServiceOrderRepository {
   create({ userId, requester, problemDescription }: IServiceOrderRequest): Promise<serviceOrder>;
-  getOne(id: string): Promise<serviceOrder | null>;
+  getOne(id: number): Promise<serviceOrder | null>;
   getAll(): Promise<serviceOrder[]>;
   getAllByUser(userId: string): Promise<serviceOrder[]>;
-  update(id: string, serviceOrder: Partial<serviceOrder>): Promise<serviceOrder>;
-  delete(id: string): Promise<void>;
+  update(id: number, serviceOrder: Partial<serviceOrder>): Promise<serviceOrder>;
+  delete(id: number): Promise<void>;
 }
