@@ -10,7 +10,7 @@ export class UpdateServiceOrder {
     this.repository = serviceOrderRepository;
   }
 
-  public async execute(id: string, serviceOrderData: Partial<serviceOrder>): Promise<serviceOrder> {
+  public async execute(id: number, serviceOrderData: Partial<serviceOrder>): Promise<serviceOrder> {
     const getServiceOrder = await this.repository.getOne(id);
 
     if (!getServiceOrder) {
