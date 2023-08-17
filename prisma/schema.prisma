@@ -22,7 +22,7 @@ model User {
 }
 
 model serviceOrder {
-  id                   String   @id @unique @default(uuid())
+  id                   Int      @id @unique @default(autoincrement())
   requester            String
   problemDescription   String
   executionDescription String?
