@@ -2,7 +2,6 @@ import { sign } from 'jsonwebtoken';
 import hash from 'bcrypt';
 
 import { HttpException } from '../../../errors/HttpException';
-import { IUserAuthResponse } from '../interface/IUserAuthenticate';
 import { UserRepository } from '../repository/UserResository';
 import { jwtSecret } from '../../../config/vars';
 
@@ -13,7 +12,7 @@ export class AuthenticateUser {
     this.repository = userRepository;
   }
 
-  public async execute(username: string, password: string): Promise<IUserAuthResponse> {
+  public async execute(username: string, password: string): Promise<string> {
     const user = await this.repository.getByUsername(username.toLowerCase());
 
     if (!user || !hash.compareSync(password, user.password)) {
@@ -30,13 +29,7 @@ export class AuthenticateUser {
       { expiresIn: '7d' },
     );
 
-    return {
-      user: {
-        id: user.id,
-        username: user.username
-      },
-      token
-    };
+    return token;
   }
 }
 
