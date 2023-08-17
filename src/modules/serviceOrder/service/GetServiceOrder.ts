@@ -10,7 +10,7 @@ export class GetServiceOrder {
     this.repository = serviceOrderRepository;
   }
 
-  public async execute(id: string): Promise<serviceOrder> {
+  public async execute(id: number): Promise<serviceOrder> {
     const serviceOrder = await this.repository.getOne(id);
 
     if (!serviceOrder) {
