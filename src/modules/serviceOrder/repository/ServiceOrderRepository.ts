@@ -15,7 +15,7 @@ export class ServiceOrderRepository implements IServiceOrderRepository {
     });
   }
 
-  public async getOne(id: string): Promise<serviceOrder | null> {
+  public async getOne(id: number): Promise<serviceOrder | null> {
     return await db.serviceOrder.findUnique({
       where: { id }
     });
@@ -31,14 +31,14 @@ export class ServiceOrderRepository implements IServiceOrderRepository {
     });
   }
 
-  public async update(id: string, serviceOrder: Partial<serviceOrder>): Promise<serviceOrder> {
+  public async update(id: number, serviceOrder: Partial<serviceOrder>): Promise<serviceOrder> {
     return await db.serviceOrder.update({
       where: { id },
       data: serviceOrder
     });
   }
 
-  public async delete(id: string): Promise<void> {
+  public async delete(id: number): Promise<void> {
     await db.serviceOrder.delete({
       where: { id }
     });
