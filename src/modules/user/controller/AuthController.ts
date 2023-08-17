@@ -12,12 +12,11 @@ export default {
 
     const auth = new AuthenticateUser(userRepository);
 
-    const logged = await auth.execute(username, password);
+    const token = await auth.execute(username, password);
 
     return response.status(200).json({
       error: false,
-      message: 'Logged.',
-      logged
+      token
     });
   }
 };
