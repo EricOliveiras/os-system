@@ -8,7 +8,7 @@ export class DeleteServiceOrder {
     this.repository = serviceOrderRepository;
   }
 
-  public async execute(id: string): Promise<void> {
+  public async execute(id: number): Promise<void> {
     const getServiceOrder = await this.repository.getOne(id);
 
     if (!getServiceOrder) {
