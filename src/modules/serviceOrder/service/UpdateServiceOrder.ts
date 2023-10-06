@@ -1,4 +1,6 @@
 import { serviceOrder } from '@prisma/client';
+import path from 'path';
+import fs from 'fs';
 
 import { ServiceOrderRepository } from '../repository/ServiceOrderRepository';
 import { HttpException } from '../../../errors/HttpException';
@@ -15,6 +17,20 @@ export class UpdateServiceOrder {
 
     if (!getServiceOrder) {
       throw new HttpException(404, 'Service order not found.');
+    }
+
+    if (serviceOrderData.imageUrl && getServiceOrder.imageUrl !== null) {
+      const imagePath = path.join(getServiceOrder.imageUrl);
+
+      if (fs.existsSync(imagePath)) {
+        fs.unlink(`${getServiceOrder.imageUrl}`, (err) => {
+          if (err) {
+            throw new HttpException(500, 'Failed to delete the old image.');
+          }
+        });
+      }
+
+      getServiceOrder.imageUrl = serviceOrderData.imageUrl;
     }
 
     return await this.repository.update(id, serviceOrderData);
