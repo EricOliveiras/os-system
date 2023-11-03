@@ -3,6 +3,7 @@ import { Router } from 'express';
 import { canRequest } from '../middlewares/permissionsMiddleware';
 import { authenticated } from '../middlewares/authenticateMiddleware';
 import ServiceOrderController from '../modules/serviceOrder/controller/ServiceOrderController';
+import upload from '../config/multer';
 
 export const serviceOrderRouter = Router();
 
@@ -30,9 +31,16 @@ serviceOrderRouter.get('/:id',
   ServiceOrderController.getOne
 );
 
+serviceOrderRouter.post('/order/image',
+  authenticated,
+  canRequest('read:order'),
+  ServiceOrderController.getImage
+);
+
 serviceOrderRouter.put('/update/:id',
   authenticated,
   canRequest('update:order'),
+  upload.single('file'),
   ServiceOrderController.update
 );
 

@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import fs from 'fs';
 
 import { ServiceOrderRepository } from '../repository/ServiceOrderRepository';
 import { CreateOrderService } from '../service/CreateServiceOrder';
@@ -9,6 +10,7 @@ import { GetServiceOrder } from '../service/GetServiceOrder';
 import { UpdateServiceOrder } from '../service/UpdateServiceOrder';
 import { serviceOrder } from '@prisma/client';
 import { DeleteServiceOrder } from '../service/DeleteServiceOrder';
+import path from 'path';
 
 const userRepository = new UserRepository();
 const serviceOrderRepository = new ServiceOrderRepository();
@@ -74,12 +76,35 @@ export default {
     });
   },
 
+  async getImage(request: Request, response: Response) {
+    const { imagePath } = request.body;
+
+    const basePath = path.resolve(__dirname, '..', '..', '..', '..');
+
+    if (fs.existsSync(imagePath)) {
+      return response.sendFile(`${basePath}/${imagePath}`);
+    }
+
+    return response.status(404).json({
+      error: false,
+      message: 'Image not found or not exist.',
+    });
+  },
+
   async update(request: Request, response: Response) {
     const { id } = request.params;
 
     const data: Partial<serviceOrder> = request.body;
 
     const serviceOrder = new UpdateServiceOrder(serviceOrderRepository);
+
+    if (request.file) {
+      const imagePath = request.file.path;
+      data.imageUrl = imagePath;
+    }
+
+    const finished = JSON.parse(request.body.finished);
+    data.finished = finished;
 
     const updateServiceOrder = await serviceOrder.execute(Number(id), data);
 
