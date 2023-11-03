@@ -350,15 +350,17 @@
     },
     "/service-order/update/{id}": {
       "put": {
-        "description": "Atualiza uma ordem de ssrviço",
+        "description": "Atualiza uma ordem de serviço",
         "tags": ["order service"],
         "parameters": [
           {
             "name": "id",
             "in": "path",
-            "description": "id da ordem de serviço",
+            "description": "ID da ordem de serviço",
             "required": true,
-            "type": "int"
+            "schema": {
+              "type": "integer"
+            }
           }
         ],
         "security": [
@@ -368,14 +370,14 @@
         ],
         "requestBody": {
           "description": "Corpo da requisição",
+          "required": true,
           "content": {
-            "application/json": {
+            "multipart/form-data": {
               "schema": {
                 "$ref": "#/components/schemas/ServiceOrderRequestUpdate"
               }
             }
-          },
-          "required": true
+          }
         },
         "responses": {
           "200": {
@@ -392,7 +394,51 @@
             "description": "Não autorizado"
           },
           "404": {
-            "description": "Ordem de serviçoo não econtrada"
+            "description": "Ordem de serviço não encontrada"
+          }
+        }
+      }
+    },
+    "/service-order/order/image": {
+      "post": {
+        "description": "Recupera uma imagem da ordem de serviço com base no caminho fornecido no corpo",
+        "tags": ["order service"],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "description": "Caminho da imagem",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "imagePath": {
+                    "type": "string",
+                    "description": "Caminho da imagem",
+                    "example": "uploads/example_path.jpg"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Sucesso ao recuperar a imagem",
+            "content": {
+              "image/jpeg": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Imagem não encontrada"
           }
         }
       }
@@ -519,7 +565,7 @@
         "type": "string",
         "description": "JWT Token",
         "format": "JWT",
-        "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+        "example": "jwt_token"
       },
       "ServiceOrderRequest": {
         "type": "object",
@@ -604,8 +650,8 @@
             "description": "Descrição da execução do serviço",
             "example": "Foi realizado manutenção em ... etc"
           },
-          "imageUrl": {
-            "type": "string",
+          "file": {
+            "type": "file",
             "description": "Path da imagem",
             "example": "/image/.../image.jpg"
           },
