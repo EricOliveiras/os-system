@@ -103,6 +103,9 @@ export default {
       data.imageUrl = imagePath;
     }
 
+    const finished = JSON.parse(request.body.finished);
+    data.finished = finished;
+
     const updateServiceOrder = await serviceOrder.execute(Number(id), data);
 
     return response.status(200).json({
