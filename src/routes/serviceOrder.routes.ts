@@ -31,7 +31,7 @@ serviceOrderRouter.get('/:id',
   ServiceOrderController.getOne
 );
 
-serviceOrderRouter.get('/order/image',
+serviceOrderRouter.post('/order/image',
   authenticated,
   canRequest('read:order'),
   ServiceOrderController.getImage
