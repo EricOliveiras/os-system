@@ -81,14 +81,14 @@ export default {
 
     const basePath = path.resolve(__dirname, '..', '..', '..', '..');
 
-    if (fs.existsSync(imagePath)) {
-      return response.sendFile(`${basePath}/${imagePath}`);
+    if (!fs.existsSync(imagePath)) {
+      return response.status(404).json({
+        error: false,
+        message: 'Image not found or not exist.',
+      });
     }
-
-    return response.status(404).json({
-      error: false,
-      message: 'Image not found or not exist.',
-    });
+    
+    return response.sendFile(`${basePath}/${imagePath}`);
   },
 
   async update(request: Request, response: Response) {
