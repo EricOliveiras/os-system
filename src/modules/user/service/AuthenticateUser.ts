@@ -4,6 +4,7 @@ import hash from 'bcrypt';
 import { HttpException } from '../../../errors/HttpException';
 import { UserRepository } from '../repository/UserResository';
 import { jwtSecret } from '../../../config/vars';
+import { IUserAuthResponse } from '../interface/IUserAuthenticate';
 
 export class AuthenticateUser {
   private repository;
@@ -12,7 +13,7 @@ export class AuthenticateUser {
     this.repository = userRepository;
   }
 
-  public async execute(username: string, password: string): Promise<string> {
+  public async execute(username: string, password: string): Promise<IUserAuthResponse> {
     const user = await this.repository.getByUsername(username.toLowerCase());
 
     if (!user || !hash.compareSync(password, user.password)) {
@@ -29,7 +30,13 @@ export class AuthenticateUser {
       { expiresIn: '7d' },
     );
 
-    return token;
+    return {
+      user: {
+        id: user.id,
+        username: user.username
+      },
+      token: token
+    };
   }
 }
 
